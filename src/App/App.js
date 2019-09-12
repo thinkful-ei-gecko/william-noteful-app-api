@@ -5,7 +5,7 @@ import NoteListNav from '../NoteListNav/NoteListNav';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
-import dummyStore from '../dummy-store';
+
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
 import UserContext from '../UserContext';
@@ -16,9 +16,31 @@ class App extends Component {
         folders: []
     };
 
+
+    //this.setState(this.state.notes.filter((noteId) =>
+    //noteId !== jsonfunction 
+    //))
+    deleteNote = (noteId) => {
+        console.log('deleteNote in Apps working', noteId)
+      return  (
+        fetch(`http://localhost:9090/notes/${noteId}`, 
+        {method: 'DELETE',
+        headers: {
+            'content-type': 'application/json'
+          }})
+        .then(response => response.json())
+        .then(jsonfunction => console.log(jsonfunction))
+      )}
     componentDidMount() {
-        // fake date loading from API call
-        setTimeout(() => this.setState(dummyStore), 600);
+
+       Promise.all([
+        fetch(`http://localhost:9090/notes`),
+        fetch(`http://localhost:9090/folders`)
+        ])
+        .then(([responseNote, responseFolder]) => 
+            Promise.all([responseNote.json(), responseFolder.json()])
+            .then(([notes, folders]) => this.setState({notes, folders}))
+         )
     }
 
     renderNavRoutes() {
@@ -35,6 +57,7 @@ class App extends Component {
                                 <NoteListNav
                                     folders={folders}
                                     notes={notes}
+                                    deleteNote={this.deleteNote}
                                     {...routeProps}
                                 />
                             )}
@@ -76,6 +99,7 @@ class App extends Component {
                                     <NoteListMain
                                         {...routeProps}
                                         notes={notesForFolder}
+                                        deleteNote = {this.deleteNote}
                                     />
                                 );
                             }}
@@ -86,7 +110,7 @@ class App extends Component {
                         render={routeProps => {
                             const {noteId} = routeProps.match.params;
                             const note = findNote(notes, noteId);
-                            return <NotePageMain {...routeProps} note={note} />;
+                            return <NotePageMain {...routeProps} note={note} deleteNote={this.deleteNote}/>;
                         }}
                     />
                 </UserContext.Provider>
@@ -95,6 +119,7 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
