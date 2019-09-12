@@ -8,6 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import dummyStore from '../dummy-store';
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
+import UserContext from '../UserContext';
 
 class App extends Component {
     state = {
@@ -92,6 +93,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <UserContext.Provider>
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
                 <header className="App__header">
                     <h1>
@@ -100,6 +102,7 @@ class App extends Component {
                     </h1>
                 </header>
                 <main className="App__main">{this.renderMainRoutes()}</main>
+                </UserContext.Provider>
             </div>
         );
     }
