@@ -1,8 +1,5 @@
 import React from 'react';
 
-const UserContext = React.createContext({
-  folders: [],
-  notes: []
-})
+const UserContext = React.createContext();
 
 export default UserContext;
