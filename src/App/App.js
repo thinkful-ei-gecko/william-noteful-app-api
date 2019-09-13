@@ -15,7 +15,7 @@ class App extends Component {
     state = {
         notes: [],
         folders: [],
-        newFolderName: null,
+        newFolderName: '',
         newNote: {
             name: '',
             modified: new Date(),

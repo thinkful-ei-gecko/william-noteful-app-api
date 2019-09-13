@@ -5,6 +5,7 @@ import './NotePageNav.css'
 import UserContext from '../UserContext';
 import AddNote from '../AddNote/AddNote';
 import { Link } from 'react-router-dom';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 export default class NotePageNav extends Component {
 
@@ -39,11 +40,14 @@ export default class NotePageNav extends Component {
             {folders.name}
           </h3>
         )}
-        <AddNote 
-          updateNewNote={this.props.updateNewNote}
-          newNote={this.props.newNote}
-          addNote={this.props.addNote}
-        />
+        <ErrorBoundary>
+          <AddNote 
+            updateNewNote={this.props.updateNewNote}
+            newNote={this.props.newNote}
+            addNote={this.props.addNote}
+            onSubmit={() => this.props.history.push('/')}
+          />
+        </ErrorBoundary>
       </div>
     )
   }
