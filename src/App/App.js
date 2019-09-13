@@ -29,7 +29,7 @@ class App extends Component {
             'content-type': 'application/json'
           }})
         .then(response => response.json())
-        .then(jsonfunction => console.log(jsonfunction))
+        .then(this.setState({notes: this.state.notes.filter(note => note.id !== noteId)}))
       )}
     componentDidMount() {
 
