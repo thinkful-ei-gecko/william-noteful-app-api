@@ -5,11 +5,11 @@ export default class Addfolder extends React.Component{
         console.log(this.props)
         return(
             <div className="AddFolderform">
-                <form onSubmit={() => this.props.Addfolder}>
+                <form onSubmit={e => this.props.addFolder(e)}>
                     <label htmlFor="addfoldername"> Add folder name </label>
                         <input type="text" id="addfoldername" name="addfoldername" 
                             value={this.props.newFolderName}
-                            onChange={e => this.props.updateNewFolder}
+                            onChange={e => this.props.updateNewFolder(e)}
                         ></input>
                     <button type="submit">Add Folder</button>
                 </form>
@@ -17,7 +17,4 @@ export default class Addfolder extends React.Component{
             </div>
         )
     }
-
-
-
 }

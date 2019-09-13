@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import './NotePageNav.css'
 import UserContext from '../UserContext';
+import AddNote from '../AddNote/AddNote';
+import { Link } from 'react-router-dom';
 
 export default class NotePageNav extends Component {
 
@@ -16,10 +18,11 @@ export default class NotePageNav extends Component {
 
   render() {
     const { folders, notes, history } = this.context;
-    console.log(folders);
-    console.log(notes);
-    console.log(history);
-    return (
+    // console.log(folders);
+    // console.log(notes);
+    // console.log(history);
+    console.log(this.props);
+   return (
       <div className='NotePageNav'>
         <CircleButton
           tag='button'
@@ -36,6 +39,11 @@ export default class NotePageNav extends Component {
             {folders.name}
           </h3>
         )}
+        <AddNote 
+          updateNewNote={this.props.updateNewNote}
+          newNote={this.props.newNote}
+          addNote={this.props.addNote}
+        />
       </div>
     )
   }
