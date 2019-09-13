@@ -13,7 +13,8 @@ import UserContext from '../UserContext';
 class App extends Component {
     state = {
         notes: [],
-        folders: []
+        folders: [],
+        newFolderName: null
     };
 
 
@@ -43,8 +44,41 @@ class App extends Component {
          )
     }
 
+    updateNewFolder = (e) => {
+        console.log('updateNewFolder firing')
+        this.setState({
+            newFolderName: e.target.value
+        })
+    }
+
+    addFolder = (e) => {
+        e.preventDefault();
+        const body = JSON.stringify({name: this.state.newFolderName});
+        fetch(`http://localhost:9090/folders`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+              },
+            body: body
+        })
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            }
+            throw new Error('something went wrong')
+        }) 
+        .then((data) => {
+        console.log(data)
+        this.setState({folders: [...this.state.folders, data ]})
+        })
+        .catch(err => {
+            alert(`Error: ${err.message}`)
+        })
+    }
+
+
     renderNavRoutes() {
-        const {notes, folders} = this.state;
+        const {notes, folders, newFolderName} = this.state;
         return (
             <>
                 <UserContext.Provider value={{...this.state}}>
@@ -57,8 +91,11 @@ class App extends Component {
                                 <NoteListNav
                                     folders={folders}
                                     notes={notes}
+                                    newFolderName = {newFolderName}
                                     deleteNote={this.deleteNote}
                                     {...routeProps}
+                                    updateNewFolder = {this.updateNewFolder}
+                                    addFolder = {this.addFolder}
                                 />
                             )}
                         />
