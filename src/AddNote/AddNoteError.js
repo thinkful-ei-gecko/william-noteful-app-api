@@ -3,7 +3,7 @@ import React from 'react'
 function AddNoteError (props) {
     if (props.message) {
         return (
-            <div>
+            <div className="error-message">
                 {props.message}
             </div>
         );

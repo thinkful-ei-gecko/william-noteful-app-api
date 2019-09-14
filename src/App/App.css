@@ -38,3 +38,43 @@
   height: calc(100vh - 120px);
   overflow: auto;
 }
+
+.error-message{
+  color: red;
+}
+
+.addNoteForm {
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.note-name {
+  margin-top: 10%;
+}
+
+.note-content {
+  margin-top: 5%;
+}
+
+.note-folderId {
+  margin-top: 5%;
+}
+
+.add-note-label {
+  color: white;
+  font-weight: bold;
+}
+
+.add-folder-label{
+  font-weight: bold;
+}
+
+.button-div{
+  margin-top: 8%;
+  margin-bottom: 10%;
+}
+
+.button {
+  margin-top: 8%;
+}

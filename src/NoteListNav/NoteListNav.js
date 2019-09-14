@@ -1,10 +1,11 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircleButton from "../CircleButton/CircleButton";
 import { countNotesForFolder } from "../notes-helpers";
 import "./NoteListNav.css";
 import AddFolder from "../AddFolder/AddFolder";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 export default class NoteListNav extends React.Component {
   constructor(props) {
@@ -57,11 +58,13 @@ export default class NoteListNav extends React.Component {
             <br />
             Folder
           </CircleButton>
-          {this.state.showForm && <AddFolder
-            newFolderName={this.props.newFolderName}
-            updateNewFolder={this.props.updateNewFolder}
-            addFolder={this.addFolder}
-          />}
+          <ErrorBoundary>
+            {this.state.showForm && <AddFolder
+              newFolderName={this.props.newFolderName}
+              updateNewFolder={this.props.updateNewFolder}
+              addFolder={this.addFolder}
+            />}
+          </ErrorBoundary>
         </div>
       </div>
     );

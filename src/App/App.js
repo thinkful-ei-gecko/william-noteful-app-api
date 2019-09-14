@@ -5,8 +5,6 @@ import NoteListNav from '../NoteListNav/NoteListNav';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
-import AddNote from '../AddNote/AddNote';
-
 import { getNotesForFolder, findNote, findFolder } from '../notes-helpers';
 import './App.css';
 import UserContext from '../UserContext';
@@ -18,8 +16,8 @@ class App extends Component {
         newFolderName: '',
         newNote: {
             name: '',
-            modified: new Date(),
-            content: ''
+            content: '',
+            folderId: ''
         }
     };
 
@@ -28,7 +26,7 @@ class App extends Component {
     //noteId !== jsonfunction 
     //))
     deleteNote = (noteId) => {
-        console.log('deleteNote in Apps working', noteId)
+        // console.log('deleteNote in Apps working', noteId)
         return (
             fetch(`http://localhost:9090/notes/${noteId}`,
                 {
@@ -54,7 +52,7 @@ class App extends Component {
     }
 
     updateNewFolder = (e) => {
-        console.log('updateNewFolder firing')
+        // console.log('updateNewFolder firing')
         this.setState({
             newFolderName: e.target.value
         })
@@ -87,7 +85,7 @@ class App extends Component {
 
 
     updateNewNote = (e, inputName) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         let newNote = {...this.state.newNote, [inputName]: e.target.value}
         this.setState({
             newNote
@@ -101,8 +99,9 @@ class App extends Component {
         const body = JSON.stringify(
             {
                 name: this.state.newNote.name,
-                modified: this.state.newNote.modified,
-                content: this.state.newNote.content
+                modified: new Date(),
+                content: this.state.newNote.content,
+                folderId: this.state.newNote.folderId
             }
         )
         fetch(`http://localhost:9090/notes`, {
@@ -126,8 +125,6 @@ class App extends Component {
                 alert(`Error: ${err.message}`)
             })
     }
-
-
 
 
     renderNavRoutes() {
@@ -168,23 +165,14 @@ class App extends Component {
                         }}
                     />
                     <Route path="/add-folder" component={NotePageNav} />
-                    <Route
-                        path="/add-note"
-                        render={() => 
-                            <AddNote
-                                updateNewNote={this.updateNewNote}
-                                newNote={newNote}
-                                addNote={this.addNote}
-                            />
-                        }
-                    />
+                    <Route path="/add-note"/>
                 </UserContext.Provider>
             </>
         );
     }
 
     renderMainRoutes() {
-        const { notes, folders } = this.state;
+        const { notes, folders, newNote } = this.state;
         return (
             <>
                 <UserContext.Provider value={{ ...this.state }}>
@@ -204,7 +192,10 @@ class App extends Component {
                                         {...routeProps}
                                         notes={notesForFolder}
                                         deleteNote={this.deleteNote}
-
+                                        updateNewNote={this.updateNewNote}
+                                        newNote={newNote}
+                                        addNote={this.addNote}
+                                        folders={folders}
                                     />
                                 );
                             }}
@@ -215,7 +206,14 @@ class App extends Component {
                         render={routeProps => {
                             const { noteId } = routeProps.match.params;
                             const note = findNote(notes, noteId);
-                            return <NotePageMain {...routeProps} note={note} deleteNote={this.deleteNote} />;
+                            return <NotePageMain 
+                                {...routeProps} 
+                                note={note} 
+                                deleteNote={this.deleteNote} 
+                                updateNewNote={this.updateNewNote}
+                                newNote={newNote}
+                                addNote={this.addNote}
+                                />;
                         }}
                     />
                 </UserContext.Provider>

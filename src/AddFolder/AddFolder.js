@@ -2,6 +2,25 @@ import React from 'react'
 import AddFolderError from './AddFolderError';
 
 export default class Addfolder extends React.Component{
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             name: {
+                 touched: false
+             }
+        }
+    }
+
+    setNameTouched = (e) => {
+        this.setState({
+            name: {
+                touched: true
+            }
+        })
+    }
+    
+
     validateFolderName = () => {
         const name = this.props.newFolderName.trim();
         if(name.length === 0) {
@@ -17,13 +36,15 @@ export default class Addfolder extends React.Component{
         return(
             <div className="AddFolderform">
                 <form onSubmit={e => this.props.addFolder(e)}>
-                    <label htmlFor="addfoldername"> Add folder name </label>
+                    <label htmlFor="addfoldername" className="add-folder-label"> Add folder name </label>
                         <input type="text" id="addfoldername" name="addfoldername" 
                             value={this.props.newFolderName}
-                            onChange={e => this.props.updateNewFolder(e)}
-                        ></input>
-                        <AddFolderError message={validateFolder} />
-                    <button type="submit" disabled={validateFolder}>Add Folder</button>
+                            onChange={e => {
+                                this.props.updateNewFolder(e);
+                                this.setNameTouched(e);
+                            }}></input>
+                        {this.state.name.touched && <AddFolderError message={validateFolder} />}
+                    <button type="submit" disabled={validateFolder} className="button">Add Folder</button>
                 </form>
 
             </div>

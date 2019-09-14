@@ -5,12 +5,12 @@ export default class ErrorBoundary extends Component {
         super(props)
 
         this.state = {
-            error: null
+            error: false
         }
     }
 
     static getDerivedStateFromError(error) {
-        return { error };
+        return { error: true };
     }
 
 
