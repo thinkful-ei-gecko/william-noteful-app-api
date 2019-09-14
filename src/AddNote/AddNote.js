@@ -1,5 +1,6 @@
 import React from 'react';
 import AddNoteError from './AddNoteError';
+import PropTypes from 'prop-types';
 
 export default class AddNote extends React.Component {
     constructor(props) {
@@ -112,4 +113,11 @@ export default class AddNote extends React.Component {
             </div>
         )
     }
+}
+
+AddNote.propTypes = {
+    addNote: PropTypes.func.isRequired,
+    folders: PropTypes.arrayOf(PropTypes.object).isRequired,
+    newNote: PropTypes.object.isRequired,
+    updateNewNote: PropTypes.func.isRequired
 }

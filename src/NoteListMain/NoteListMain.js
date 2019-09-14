@@ -5,6 +5,7 @@ import CircleButton from '../CircleButton/CircleButton'
 import './NoteListMain.css'
 import AddNote from '../AddNote/AddNote';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types'
 
 
 export default class NoteListMain extends React.Component {
@@ -32,6 +33,7 @@ export default class NoteListMain extends React.Component {
 
 
   render() {
+    // console.log(this.props);
     return (
       <section className='NoteListMain'>
         <ul>
@@ -69,6 +71,15 @@ export default class NoteListMain extends React.Component {
       </section>
     )
   }
+}
+
+NoteListMain.propTypes = {
+  addNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
+  folders: PropTypes.array,
+  newNote: PropTypes.object.isRequired,
+  notes: PropTypes.array,
+  updateNewNote: PropTypes.func.isRequired
 }
 
 NoteListMain.defaultProps = {

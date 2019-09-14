@@ -22,9 +22,6 @@ class App extends Component {
     };
 
 
-    //this.setState(this.state.notes.filter((noteId) =>
-    //noteId !== jsonfunction 
-    //))
     deleteNote = (noteId) => {
         // console.log('deleteNote in Apps working', noteId)
         return (

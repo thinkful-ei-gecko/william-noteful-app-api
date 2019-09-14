@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function AddNoteError (props) {
     if (props.message) {
@@ -12,3 +13,7 @@ function AddNoteError (props) {
 }
 
 export default AddNoteError;
+
+AddNoteError.propTypes = {
+    message: PropTypes.string
+}

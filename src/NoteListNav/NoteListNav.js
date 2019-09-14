@@ -6,6 +6,7 @@ import { countNotesForFolder } from "../notes-helpers";
 import "./NoteListNav.css";
 import AddFolder from "../AddFolder/AddFolder";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import PropTypes from 'prop-types';
 
 export default class NoteListNav extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export default class NoteListNav extends React.Component {
   }
 
   render() {
+    // console.log(this.props);
     return (
       <div className="NoteListNav">
         <ul className="NoteListNav__list">
@@ -69,6 +71,14 @@ export default class NoteListNav extends React.Component {
       </div>
     );
   }
+}
+
+NoteListNav.propTypes = {
+  addFolder: PropTypes.func.isRequired,
+  folders: PropTypes.array,
+  newNote: PropTypes.object,
+  notes: PropTypes.array,
+  updateNewFolder: PropTypes.func.isRequired
 }
 
 NoteListNav.defaultProps = {

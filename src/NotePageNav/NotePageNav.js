@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import './NotePageNav.css'
 import UserContext from '../UserContext';
+import PropTypes from 'prop-types';
 
 export default class NotePageNav extends Component {
 
@@ -15,8 +16,8 @@ export default class NotePageNav extends Component {
   }
 
   render() {
+    // console.log(this.props);
     const { folders } = this.context;
-    console.log(this.props);
    return (
       <div className='NotePageNav'>
         <CircleButton
@@ -37,4 +38,9 @@ export default class NotePageNav extends Component {
       </div>
     )
   }
+}
+
+NotePageNav.propTypes = {
+  folder: PropTypes.object,
+  newNote: PropTypes.object
 }

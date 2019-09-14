@@ -1,7 +1,8 @@
 import React from 'react'
 import AddFolderError from './AddFolderError';
+import PropTypes from 'prop-types';
 
-export default class Addfolder extends React.Component{
+export default class Addfolder extends React.Component {
     constructor(props) {
         super(props)
     
@@ -50,4 +51,10 @@ export default class Addfolder extends React.Component{
             </div>
         )
     }
+}
+
+Addfolder.propTypes = {
+    newFolderName: PropTypes.string.isRequired,
+    addFolder: PropTypes.func.isRequired,
+    updateNewFolder: PropTypes.func.isRequired
 }

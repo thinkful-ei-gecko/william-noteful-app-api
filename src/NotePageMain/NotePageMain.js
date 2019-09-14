@@ -1,9 +1,10 @@
 import React from 'react'
 import Note from '../Note/Note'
 import './NotePageMain.css'
+import PropTypes from 'prop-types'
 
 export default function NotePageMain(props) {
-  console.log(props)
+  // console.log(props);
   return (
     <section className='NotePageMain'>
       <Note
@@ -19,6 +20,15 @@ export default function NotePageMain(props) {
       </div>
     </section>
   )
+}
+
+NotePageMain.propTypes = {
+  addNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
+  folders: PropTypes.array,
+  newNote: PropTypes.object.isRequired,
+  notes: PropTypes.array,
+  updateNewNote: PropTypes.func.isRequired
 }
 
 NotePageMain.defaultProps = {

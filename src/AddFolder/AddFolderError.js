@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function AddFolderError (props) {
     if (props.message) {
@@ -12,3 +13,7 @@ function AddFolderError (props) {
 }
 
 export default AddFolderError;
+
+AddFolderError.propTypes = {
+    message: PropTypes.string
+}
