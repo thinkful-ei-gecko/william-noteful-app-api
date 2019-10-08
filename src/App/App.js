@@ -9,6 +9,7 @@ import { getNotesForFolder, findNote, findFolder } from '../notes-helpers';
 import './App.css';
 import UserContext from '../UserContext';
 import EditNote from '../EditNote/EditNote';
+import EditFolder from '../EditFolder/EditFolder';
 
 class App extends Component {
     state = {
@@ -153,6 +154,18 @@ class App extends Component {
         })
     };
 
+
+    updateFolder = (updatedFolder) => {
+        const newFolders = this.state.folders.map(folder => 
+          (folder.id === updatedFolder.id)
+            ? updatedFolder
+            : folder
+          );
+        this.setState({
+            folders: newFolders
+        })
+    }
+
     renderNavRoutes() {
         const { notes, folders, newFolderName, newNote } = this.state;
         return (
@@ -193,7 +206,7 @@ class App extends Component {
                     />
                     <Route path="/add-folder" component={NotePageNav} />
                     <Route path="/add-note"/>
-                    <Route 
+                    <Route
                         path="/edit/:noteId" 
                         render={routeProps => {
                             const { noteId } = routeProps.match.params;
@@ -210,6 +223,26 @@ class App extends Component {
                                 updateNote={this.updateNote}
                                 />;
                         }}
+                    />
+                    <Route 
+                        path="/editFolder/:folderId"
+                        render={routeProps => {
+                            const { folderId } = routeProps.match.params;
+                            const folder = findFolder(folders, parseInt(folderId));
+                            return <EditFolder 
+                                {...routeProps}
+                                folder={folder}
+                                folders={this.state.folders}
+                                notes={this.state.notes}
+                                deleteNote={this.deleteNote} 
+                                updateNewNote={this.updateNewNote}
+                                newNote={this.state.newNote}
+                                addNote={this.addNote}
+                                updateFolder={this.updateFolder}
+                                newFolderName={this.state.newFolderName}
+                            />
+                        }}
+                    
                     />
                 </UserContext.Provider>
             </>

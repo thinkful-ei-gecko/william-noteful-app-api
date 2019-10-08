@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircleButton from "../CircleButton/CircleButton";
 import { countNotesForFolder } from "../notes-helpers";
@@ -46,6 +46,7 @@ export default class NoteListNav extends React.Component {
                   {countNotesForFolder(this.props.notes, folder.id)}
                 </span>
                 {folder.folder_name}
+                <Link to={`/editFolder/${folder.id}`}>Edit Folder</Link>
               </NavLink>
               <button type="button" onClick={() => this.props.deleteFolder(folder.id) }>Delete Folder</button>
             </li>
