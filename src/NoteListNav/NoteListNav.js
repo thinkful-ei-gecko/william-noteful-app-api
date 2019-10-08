@@ -45,8 +45,9 @@ export default class NoteListNav extends React.Component {
                 <span className="NoteListNav__num-notes">
                   {countNotesForFolder(this.props.notes, folder.id)}
                 </span>
-                {folder.name}
+                {folder.folder_name}
               </NavLink>
+              <button type="button" onClick={() => this.props.deleteFolder(folder.id) }>Delete Folder</button>
             </li>
           ))}
         </ul>

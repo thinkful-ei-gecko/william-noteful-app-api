@@ -32,13 +32,14 @@ export default class Note extends React.Component {
             </span>
           </div>
         </div>
+        <Link to={`/edit/${this.props.id}`}><button type="button">Edit Note</button></Link>
       </div>
     )
   }
 }
 
 Note.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   name: PropTypes.string,
   modified: PropTypes.string,
   deleteNote: PropTypes.func.isRequired

@@ -61,15 +61,23 @@ export default class AddNote extends React.Component {
         }
     }
 
+    resetFields = () => {
+        this.props.newNote.name = '';
+        this.props.newNote.content = '';
+        this.props.newNote.folderId = '';
+    }
+
 
     render() {
         // console.log(this.props)
         let noteNameError = this.validateNoteName();
         let contentError = this.validateNoteContent();
-        let folderIdError=this.validateNoteFolderId();
+        let folderIdError = this.validateNoteFolderId();
         return (
             <div className="addNoteForm">
-                <form onSubmit={(e) => this.props.addNote(e)}>
+                <form onSubmit={(e) => {
+                    this.props.addNote(e)
+                    this.resetFields()}}>
                     <div className="note-name">
                         <label htmlFor="note-name" className="add-note-label">Please enter note name</label>
                         <br />
@@ -102,7 +110,7 @@ export default class AddNote extends React.Component {
                           }}
                           >
                             <option value="">Select folder...</option>
-                            {this.props.folders.map(folder => <option value={folder.id} key={folder.id}>{folder.name}</option>)}
+                            {this.props.folders.map(folder => <option value={folder.id} key={folder.id}>{folder.folder_name}</option>)}
                         </select>
                         <AddNoteError message={folderIdError} />
                     </div>

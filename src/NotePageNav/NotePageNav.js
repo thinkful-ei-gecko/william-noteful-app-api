@@ -16,7 +16,6 @@ export default class NotePageNav extends Component {
   }
 
   render() {
-    // console.log(this.props);
     const { folders } = this.context;
    return (
       <div className='NotePageNav'>

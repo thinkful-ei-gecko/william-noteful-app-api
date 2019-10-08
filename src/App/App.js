@@ -8,6 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import { getNotesForFolder, findNote, findFolder } from '../notes-helpers';
 import './App.css';
 import UserContext from '../UserContext';
+import EditNote from '../EditNote/EditNote';
 
 class App extends Component {
     state = {
@@ -25,22 +26,41 @@ class App extends Component {
     deleteNote = (noteId) => {
         // console.log('deleteNote in Apps working', noteId)
         return (
-            fetch(`http://localhost:9090/notes/${noteId}`,
+            fetch(`http://localhost:8000/api/notes/${noteId}`,
                 {
                     method: 'DELETE',
                     headers: {
                         'content-type': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                // .then(response => response.json())
                 .then(this.setState({ notes: this.state.notes.filter(note => note.id !== noteId) }))
         )
     }
+
+
+    deleteFolder = (folderId) => {
+        return (
+            fetch(`http://localhost:8000/api/folders/${folderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(() => {
+                this.setState({
+                    folders: this.state.folders.filter(folder => folder.id !== folderId)
+                })
+            })
+        )
+    }
+
+
     componentDidMount() {
 
         Promise.all([
-            fetch(`http://localhost:9090/notes`),
-            fetch(`http://localhost:9090/folders`)
+            fetch(`http://localhost:8000/api/notes`),
+            fetch(`http://localhost:8000/api/folders`)
         ])
             .then(([responseNote, responseFolder]) =>
                 Promise.all([responseNote.json(), responseFolder.json()])
@@ -57,8 +77,8 @@ class App extends Component {
 
     addFolder = (e) => {
         e.preventDefault();
-        const body = JSON.stringify({ name: this.state.newFolderName });
-        fetch(`http://localhost:9090/folders`, {
+        const body = JSON.stringify({ folder_name: this.state.newFolderName });
+        fetch(`http://localhost:8000/api/folders`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -95,13 +115,12 @@ class App extends Component {
         e.preventDefault();
         const body = JSON.stringify(
             {
-                name: this.state.newNote.name,
-                modified: new Date(),
+                note_name: this.state.newNote.name,
                 content: this.state.newNote.content,
-                folderId: this.state.newNote.folderId
+                folder: this.state.newNote.folderId
             }
         )
-        fetch(`http://localhost:9090/notes`, {
+        fetch(`http://localhost:8000/api/notes`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -123,6 +142,16 @@ class App extends Component {
             })
     }
 
+    updateNote = (updatedNote) => {
+        const newNotes = this.state.notes.map(note => 
+          (note.id === updatedNote.id)
+            ? updatedNote
+            : note
+        );
+        this.setState({
+            notes: newNotes
+        })
+    };
 
     renderNavRoutes() {
         const { notes, folders, newFolderName, newNote } = this.state;
@@ -143,6 +172,7 @@ class App extends Component {
                                     {...routeProps}
                                     updateNewFolder={this.updateNewFolder}
                                     addFolder={this.addFolder}
+                                    deleteFolder={this.deleteFolder}
                                 />
                             )}
                         />
@@ -150,9 +180,9 @@ class App extends Component {
                     <Route
                         path="/note/:noteId"
                         render={routeProps => {
-                            const { noteId } = routeProps.match.params;
-                            const note = findNote(notes, noteId) || {};
-                            const folder = findFolder(folders, note.folderId);
+                            const { folderId } = routeProps.match.params;
+                            // const note = findNote(notes, parseInt(noteId)) || {};
+                            const folder = findFolder(folders, parseInt(folderId));
                             return <NotePageNav
                                 newNote={newNote}
                                 {...routeProps}
@@ -163,6 +193,24 @@ class App extends Component {
                     />
                     <Route path="/add-folder" component={NotePageNav} />
                     <Route path="/add-note"/>
+                    <Route 
+                        path="/edit/:noteId" 
+                        render={routeProps => {
+                            const { noteId } = routeProps.match.params;
+                            const note = findNote(notes, parseInt(noteId));
+                            return <EditNote 
+                                {...routeProps}
+                                note={note}
+                                folders={this.state.folders}
+                                notes={this.state.notes}
+                                deleteNote={this.deleteNote} 
+                                updateNewNote={this.updateNewNote}
+                                newNote={this.state.newNote}
+                                addNote={this.addNote}
+                                updateNote={this.updateNote}
+                                />;
+                        }}
+                    />
                 </UserContext.Provider>
             </>
         );
@@ -182,7 +230,7 @@ class App extends Component {
                                 const { folderId } = routeProps.match.params;
                                 const notesForFolder = getNotesForFolder(
                                     notes,
-                                    folderId
+                                    parseInt(folderId)
                                 );
                                 return (
                                     <NoteListMain
@@ -202,7 +250,7 @@ class App extends Component {
                         path="/note/:noteId"
                         render={routeProps => {
                             const { noteId } = routeProps.match.params;
-                            const note = findNote(notes, noteId);
+                            const note = findNote(notes, parseInt(noteId));
                             return <NotePageMain 
                                 {...routeProps} 
                                 note={note} 
