@@ -27,7 +27,7 @@ class App extends Component {
     deleteNote = (noteId) => {
         // console.log('deleteNote in Apps working', noteId)
         return (
-            fetch(`http://localhost:8000/api/notes/${noteId}`,
+            fetch(`https://tranquil-sands-99231.herokuapp.com/api/notes/${noteId}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -42,7 +42,7 @@ class App extends Component {
 
     deleteFolder = (folderId) => {
         return (
-            fetch(`http://localhost:8000/api/folders/${folderId}`, {
+            fetch(`https://tranquil-sands-99231.herokuapp.com/api/folders/${folderId}`, {
                 method: 'DELETE',
                 headers: {
                     'content-type': 'application/json'
@@ -60,8 +60,8 @@ class App extends Component {
     componentDidMount() {
 
         Promise.all([
-            fetch(`http://localhost:8000/api/notes`),
-            fetch(`http://localhost:8000/api/folders`)
+            fetch(`https://tranquil-sands-99231.herokuapp.com/api/notes/`),
+            fetch(`https://tranquil-sands-99231.herokuapp.com/api/folders/`)
         ])
             .then(([responseNote, responseFolder]) =>
                 Promise.all([responseNote.json(), responseFolder.json()])
@@ -79,7 +79,7 @@ class App extends Component {
     addFolder = (e) => {
         e.preventDefault();
         const body = JSON.stringify({ folder_name: this.state.newFolderName });
-        fetch(`http://localhost:8000/api/folders`, {
+        fetch(`https://tranquil-sands-99231.herokuapp.com/api/folders/`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -121,7 +121,7 @@ class App extends Component {
                 folder: this.state.newNote.folderId
             }
         )
-        fetch(`http://localhost:8000/api/notes`, {
+        fetch(`https://tranquil-sands-99231.herokuapp.com/api/notes/`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

@@ -12,7 +12,7 @@ export default class EditFolder extends Component {
   
   componentDidMount() {
     const folderId = this.props.match.params.folderId;
-    fetch(`http://localhost:8000/api/folders/${folderId}`, {
+    fetch(`https://tranquil-sands-99231.herokuapp.com/api/folders/${folderId}`, {
       method: 'GET'
     })
       .then(res => {
@@ -44,7 +44,7 @@ export default class EditFolder extends Component {
     const folderId = this.props.match.params.folderId;
     const { id, folder_name } = this.state;
     const updatedFolder = { id, folder_name }
-    fetch(`http://localhost:8000/api/folders/${folderId}`, {
+    fetch(`https://tranquil-sands-99231.herokuapp.com/api/folders/${folderId}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'
@@ -71,7 +71,7 @@ export default class EditFolder extends Component {
                 <label htmlFor="addfoldername" className="add-folder-label"> Add folder name </label>
                     <input type="text" id="addfoldername" name="addfoldername" value={folder_name}
                         onChange={e => this.handleChange(e)}></input>
-                <button type="submit" className="button">Add Folder</button>
+                <button type="submit" className="edit-folder-button">Edit Folder</button>
             </form>
         </div>
     )

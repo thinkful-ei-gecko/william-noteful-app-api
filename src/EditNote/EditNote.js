@@ -15,7 +15,7 @@ export default class EditNote extends Component {
   
   componentDidMount() {
     const noteId = this.props.match.params.noteId;
-    fetch(`http://localhost:8000/api/notes/${noteId}`, {
+    fetch(`https://tranquil-sands-99231.herokuapp.com/api/notes/${noteId}`, {
       method: 'GET'
     })
     .then(res => {
@@ -50,7 +50,7 @@ export default class EditNote extends Component {
     const noteId = this.props.match.params.noteId;
     const { id, note_name, content, folder, modified } = this.state;
     const updatedNote = { id, note_name, content, folder, modified };
-    fetch(`http://localhost:8000/api/notes/${noteId}`, {
+    fetch(`https://tranquil-sands-99231.herokuapp.com/api/notes/${noteId}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

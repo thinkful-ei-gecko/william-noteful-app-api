@@ -46,9 +46,9 @@ export default class NoteListNav extends React.Component {
                   {countNotesForFolder(this.props.notes, folder.id)}
                 </span>
                 {folder.folder_name}
-                <Link to={`/editFolder/${folder.id}`}>Edit Folder</Link>
+                <Link to={`/editFolder/${folder.id}`}><button>Edit Folder</button></Link>
+                <button type="button" onClick={() => this.props.deleteFolder(folder.id) }>Delete Folder</button>
               </NavLink>
-              <button type="button" onClick={() => this.props.deleteFolder(folder.id) }>Delete Folder</button>
             </li>
           ))}
         </ul>
