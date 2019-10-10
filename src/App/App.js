@@ -93,7 +93,7 @@ class App extends Component {
                 throw new Error('something went wrong')
             })
             .then((data) => {
-                console.log(data)
+                // console.log(data)
                 this.setState({ folders: [...this.state.folders, data] })
             })
             .catch(err => {
@@ -135,7 +135,7 @@ class App extends Component {
                 throw new Error('something went wrong')
             })
             .then((data) => {
-                console.log(data)
+                // console.log(data)
                 this.setState({ notes: [...this.state.notes, data] })
             })
             .catch(err => {

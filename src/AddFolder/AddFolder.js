@@ -32,7 +32,7 @@ export default class Addfolder extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         let validateFolder = this.validateFolderName();
         return(
             <div className="AddFolderform">
